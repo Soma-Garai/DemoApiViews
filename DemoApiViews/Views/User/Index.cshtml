@@ -1,0 +1,80 @@
+﻿@model List<DemoApiViews.DTO.UsersDto>
+@{
+    var users = ViewData["users"];
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Users</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Users</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.userName</td>
+                        <td>@item.email</td>
+                        <td> 
+                            @* <form method="post" action="/User/DeleteUser" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                <input type="hidden" name="userId" value="@item.id" />
+                                <button type="submit" class="btn btn-danger" >Delete</button>
+                            </form> *@
+                            <a href="@Url.Action("EditUser", "User", new { id = item.id })">Edit</a>
+                            <button class="deleteButton" data-itemid="@item.id">Delete User </button>
+
+                        </td>
+                        @* <td><button type="button" class="btn btn-danger">Delete</button></td> *@
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <script>
+
+        $(document).ready(function () 
+        {
+            $(".deleteButton").on("click", function () {
+                // Confirm the deletion or perform any other necessary checks
+                if (confirm("Are you sure you want to delete?")) {
+                    // Get the ID from the data attribute of the clicked button
+                    var itemId = $(this).data("itemid");
+
+                    // Make an AJAX request to the API endpoint
+                    $.ajax({
+                        url: 'User/DeleteUser/' + itemId, // Replace with your API endpoint
+                        type: 'DELETE',
+                        success: function (result) {
+                            // Handle success, e.g., update UI, show a message
+                            alert('Item deleted successfully');
+                            location.reload();
+                        },
+                        error: function (error) {
+                            // Handle error, e.g., show an error message
+                            alert('Error deleting item');
+                        }
+                    });
+                }
+            });
+ 
+        });
+    </script>
+</body>
+</html>

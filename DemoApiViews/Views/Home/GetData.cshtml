@@ -1,0 +1,41 @@
+﻿@model DemoApiViews.DTO.UsersDto
+
+<form method="post" action="@Url.Action("GetData", "Home")">
+    <div class="container">
+        <h2>User Registration</h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label for="username">Username:</label></td>
+                    <td><input type="text" id="username" name="Username" class="form-control" /></td>
+                    <td><span asp-validation-for="userName" class="text-danger"></span></td>
+                </tr>
+                
+                <tr>
+                    <td><label for="email">Email:</label></td>
+                    <td><input type="email" id="email" name="Email" class="form-control" /></td>
+                    <td><span asp-validation-for="email" class="text-danger"></span></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password:</label></td>
+                    <td><input type="password" id="password" name="password" class="form-control" /></td>
+                    <td><span asp-validation-for="password" class="text-danger"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+
+
+<div class="container mt-4">
+    @if (ViewData["data"] != null)
+    {
+        if (ViewData["responsetype"] == "OK")
+        {
+            <div class="alert alert-success">@ViewData["data"]</div>
+        }
+    <div class="alert alert-danger">@ViewData["data"]</div>
+    }
+</div>
